@@ -1,11 +1,10 @@
 <template>
-  <!-- 轮播图部分
+  <div class="container">
+    <!-- 轮播图部分
         interval===自动切换的时间间隔，单位为毫秒
         arrow===切换箭头的显示时机
-   -->
-  <div class="container">
-    <el-carousel :interval="5000" 
-        arrow="always">
+    -->
+    <el-carousel :interval="5000" arrow="always">
       <el-carousel-item v-for="(item, index) in Carousel" :key="index">
         <div
           class="banner-image"
@@ -16,6 +15,28 @@
         ></div>
       </el-carousel-item>
     </el-carousel>
+    <!-- 搜索框部分 -->
+    <div class="banner-content">
+      <div class="search-bar">
+        <el-row type="flex" class="search-tab">
+          <span
+            v-for="(item, index) in options "
+            :key="index"
+            @click="handleOption(index)"
+            :class="{active: index === currentOption}"
+          >
+            <i>{{item.name}}</i>
+          </span>
+        </el-row>
+
+        <!-- 输入框 -->
+        <el-row type="flex" class="search-input" align="middle" >
+          <input v-model="searchData" :placeholder="options[currentOption].placeholder" />
+      
+             <i class="el-icon-search" @click="handleSearch"></i>
+        </el-row>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -23,11 +44,41 @@
 export default {
   data() {
     return {
+      // 搜索tab栏索引
+      currentOption: 0,
+      // 搜索的内容
+      searchData: "",
       // 轮播图初始值
-      Carousel: []
+      Carousel: [],
+      options: [
+        {
+          name: "攻略",
+          placeholder: "搜索城市",
+          pageUrl: "/post?city="
+        },
+        {
+          name: "酒店",
+          placeholder: "请输入城市搜索酒店",
+          pageUrl: "/hotel?city="
+        },
+        {
+          name: "机票",
+          placeholder: "请输入出发地",
+          pageUrl: "/air"
+        }
+      ]
     };
   },
   methods: {
+    handleSearch(){
+alert(666)
+    },
+    handleOption(index) {
+      this.currentOption = index;
+      if(index===2){
+        alert(666)
+      }
+    },
     // 从服务器获取轮播图的图片
     getAxios() {
       this.$axios({
