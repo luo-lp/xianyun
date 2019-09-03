@@ -7,14 +7,16 @@
 
         <el-form-item class="form-item">
             <el-input 
-            placeholder="用户名/手机">
+            placeholder="用户名/手机"
+            v-model="form.username">
             </el-input>
         </el-form-item>
 
         <el-form-item class="form-item">
             <el-input 
             placeholder="密码" 
-            type="password">
+            type="password"
+            v-model="form.password">
             </el-input>
         </el-form-item>
 
@@ -37,7 +39,10 @@ export default {
     data(){
         return {
             // 表单数据
-            form: {},
+            form: {
+                username:'',
+                password:''
+            },
             // 表单规则
             rules: {},
         }
@@ -45,7 +50,14 @@ export default {
     methods: {
         // 提交登录
         handleLoginSubmit(){
-           console.log(this.form)
+           this.$axios({
+               url:'accounts/login',
+               method:'POST',
+               data:this.form
+           })
+           .then(res=>{
+               console.log(res);
+           })
         }
     }
 }
