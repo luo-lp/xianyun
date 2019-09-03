@@ -23,10 +23,12 @@
 export default {
   data() {
     return {
+      // 轮播图初始值
       Carousel: []
     };
   },
   methods: {
+    // 从服务器获取轮播图的图片
     getAxios() {
       this.$axios({
         url: "scenics/banners"
