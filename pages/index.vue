@@ -30,10 +30,10 @@
         </el-row>
 
         <!-- 输入框 -->
-        <el-row type="flex" class="search-input" align="middle" >
+        <el-row type="flex" class="search-input" align="middle">
           <input v-model="searchData" :placeholder="options[currentOption].placeholder" />
-      
-             <i class="el-icon-search" @click="handleSearch"></i>
+
+          <i class="el-icon-search" @click="handleSearch"></i>
         </el-row>
       </div>
     </div>
@@ -70,13 +70,14 @@ export default {
     };
   },
   methods: {
-    handleSearch(){
-alert(666)
+    handleSearch() {
+      alert(666);
     },
+    // 当点击后实现机票订购跳转
     handleOption(index) {
       this.currentOption = index;
-      if(index===2){
-        alert(666)
+      if (index === 2) {
+        this.$router.push(this.options[index].pageUrl);
       }
     },
     // 从服务器获取轮播图的图片
