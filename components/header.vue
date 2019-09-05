@@ -21,8 +21,8 @@
         <nuxt-link to="/user/login">登录 / 注册</nuxt-link>
       </div>
       <div v-if="userName">
-        <el-dropdown>
             <img :src="avatar" alt="" srcset="" class="avatar">
+        <el-dropdown>
           <span class="el-dropdown-link">
             {{userName}}
             <i class="el-icon-arrow-down el-icon--right"></i>
