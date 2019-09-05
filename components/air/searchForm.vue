@@ -36,7 +36,13 @@
       </el-form-item>
       <el-form-item label="出发时间">
         <!-- change 用户确认选择日期时触发 -->
-        <el-date-picker type="date" placeholder="请选择日期" style="width: 100%;" @change="handleDate" v-model="from.departDate"></el-date-picker>
+        <el-date-picker
+          type="date"
+          placeholder="请选择日期"
+          style="width: 100%;"
+          @change="handleDate"
+          v-model="from.departDate"
+        ></el-date-picker>
       </el-form-item>
       <el-form-item label>
         <el-button style="width:100%;" type="primary" icon="el-icon-search" @click="handleSubmit">搜索</el-button>
@@ -49,6 +55,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 export default {
   data() {
     return {
@@ -118,7 +125,8 @@ export default {
 
     // 确认选择日期时触发
     handleDate(value) {
-      console.log(value);
+      console.log(moment(value).format("YYYY-MM-DD"));
+      this.from.departDate=moment(value).format("YYYY-MM-DD")
     },
 
     // 触发和目标城市切换时触发
@@ -133,11 +141,12 @@ export default {
       })
       .then(res=>{
         console.log(res);
-        
+      
       })
     }
   },
-  mounted() {}
+  mounted() {
+  }
 };
 </script>
 
