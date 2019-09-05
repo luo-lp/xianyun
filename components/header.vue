@@ -17,10 +17,10 @@
       </el-row>
 
       <!-- 登录跳转 -->
-      <div v-if="false">
+      <div v-if="!userName">
         <nuxt-link to="/user/login">登录 / 注册</nuxt-link>
       </div>
-      <div v-if="true">
+      <div v-if="userName">
         <el-dropdown>
             <img :src="avatar" alt="" srcset="" class="avatar">
           <span class="el-dropdown-link">
@@ -46,8 +46,14 @@ export default {
     };
   },
   mounted(){
-      this.userName=this.$store.state.user.userInfo.user.nickname
-      this.avatar=this.$axios.defaults.baseURL+this.$store.state.user.userInfo.user.defaultAvatar
+      console.log(123)
+     setTimeout(()=>{
+          this.userName=this.$store.state.user.userInfo.user.nickname
+        this.avatar=this.$axios.defaults.baseURL+this.$store.state.user.userInfo.user.defaultAvatar
+     },20)
+    //   console.log(this)
+      console.log(this.$store.state.user.userInfo.user.nickname);
+    //   console.log(this.userName);
   }
 };
 </script>
