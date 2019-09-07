@@ -69,7 +69,7 @@ export default {
         departCode: "CAN",
         destCity: "上海市",
         destCode: "SHA",
-        departDate: "2019-09-06"
+        departDate: "2019-09-10"
       }
     };
   },
@@ -134,15 +134,11 @@ export default {
 
     // 提交表单是触发
     handleSubmit() {
-      console.log(this.from);
-      this.$axios({
-        url:'airs',
-        params:this.from
-      })
-      .then(res=>{
-        console.log(res);
-      
-      })
+      // console.log(this.from);
+      this.$router.push({
+          path:'/air/flights',
+          query:this.from
+        })
     }
   },
   mounted() {
