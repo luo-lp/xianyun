@@ -4,7 +4,9 @@
       <!-- 顶部过滤列表 -->
       <div class="flights-content">
         <!-- 过滤条件 -->
-        <div></div>
+        <div>
+          <FlightsFilters :data="options" @airName="arr" />
+        </div>
 
         <!-- 航班头部布局 -->
         <div>
@@ -38,9 +40,16 @@
 import moment from "moment";
 import FlightsListHead from "@/components/air/flightsListHead.vue";
 import FlightsItem from "@/components/air/flightsItem.vue";
+import FlightsFilters from "@/components/air/flightsFilters.vue";
 export default {
   data() {
     return {
+      options: {
+        data: {
+          info: {},
+          options: {}
+        }
+      },
       SDataList: [],
       dataList: [],
       pageIndex: 1,
@@ -49,6 +58,11 @@ export default {
     };
   },
   methods: {
+    arr(arr){
+      this.dataList=arr
+      this.total=arr.length
+      // console.log(arr);
+    },
     ShouDataList() {
       const start = (this.pageIndex - 1) * this.pageSize;
       const end = start + this.pageSize;
@@ -56,7 +70,7 @@ export default {
     },
     handleSizeChange(val) {
       this.pageIndex = 1;
-      this.pageSize=val
+      this.pageSize = val;
       this.ShouDataList();
     },
     handleCurrentChange(val) {
@@ -66,16 +80,21 @@ export default {
   },
   components: {
     FlightsListHead,
-    FlightsItem
+    FlightsItem,
+    FlightsFilters
   },
   mounted() {
     this.$axios({
       url: "airs",
       params: this.$route.query
     }).then(res => {
+      this.options = res;
       this.dataList = res.data.flights;
       this.SDataList = res.data.flights;
-      console.log(res);
+      console.log(res, 456);
+      console.log(this);
+
+      console.log(this.options, 123);
       this.total = res.data.total;
       this.ShouDataList();
     });
