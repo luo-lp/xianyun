@@ -21,14 +21,14 @@
         <el-select size="mini" v-model="flightTimes" placeholder="起飞时间" @change="handleFlightTimes">
           <el-option
             :label="`${item.from}:00 - ${item.to}:00`"
-            :value="`${item.from}${item.to}`"
+            :value="`${item.from},${item.to}`"
             v-for="(item, index) in data.data.options.flightTimes"
             :key="index"
           ></el-option>
         </el-select>
       </el-col>
       <el-col :span="4">
-        <el-select size="mini" v-model="company" placeholder="航空公司" @change="handleCompany" >
+        <el-select size="mini" v-model="company" placeholder="航空公司" @change="handleCompany">
           <el-option
             :label="item"
             :value="item"
@@ -68,7 +68,7 @@ export default {
       flightTimes: "", // 出发时间
       company: "", // 航空公司
       airSize: "", // 机型大小
-      arr:[],
+      arr: [],
       airSizeList: [
         { label: "大", value: "L" },
         { label: "中", value: "M" },
@@ -80,15 +80,22 @@ export default {
     // 选择机场时候触发
     handleAirport(value) {
       // console.log(value);
-      
+
       this.arr = this.data.data.flights.filter(v => {
         return v.org_airport_name === value;
       });
-      this.$emit('airName',this.arr)
+      this.$emit("airName", this.arr);
     },
 
     // 选择出发时间时候触发
-    handleFlightTimes(value) {},
+    handleFlightTimes(value) {
+      const [a, b] = [...value.split(",")];
+      this.arr = this.data.data.flights.filter(v => {
+        v.c = +[v.dep_time.split(":")[0]];
+        return v.c > +a && v.c < +b;
+      });
+      this.$emit("airName", this.arr);
+    },
 
     // 选择航空公司时候触发
     handleCompany(value) {
@@ -96,7 +103,7 @@ export default {
       this.arr = this.data.data.flights.filter(v => {
         return v.airline_name === value;
       });
-      this.$emit('airName',this.arr)
+      this.$emit("airName", this.arr);
     },
 
     // 选择机型时候触发
@@ -104,7 +111,7 @@ export default {
       this.arr = this.data.data.flights.filter(v => {
         return v.plane_size === value;
       });
-      this.$emit('airName',this.arr)
+      this.$emit("airName", this.arr);
     },
 
     // 撤销条件时候触发
