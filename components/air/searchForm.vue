@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import moment from 'moment'
+import moment from "moment";
 export default {
   data() {
     return {
@@ -114,19 +114,19 @@ export default {
     // 出发城市下拉选择时触发
     handleDepartSelect(item) {
       console.log(item.sort);
-      this.from.departCode=item.sort
+      this.from.departCode = item.sort;
     },
 
     // 目标城市下拉选择时触发
     handleDestSelect(item) {
       console.log(item);
-      this.from.destCode=item.sort
+      this.from.destCode = item.sort;
     },
 
     // 确认选择日期时触发
     handleDate(value) {
       console.log(moment(value).format("YYYY-MM-DD"));
-      this.from.departDate=moment(value).format("YYYY-MM-DD")
+      this.from.departDate = moment(value).format("YYYY-MM-DD");
     },
 
     // 触发和目标城市切换时触发
@@ -134,15 +134,32 @@ export default {
 
     // 提交表单是触发
     handleSubmit() {
-      // console.log(this.from);
+      if (!localStorage.getItem("odd")) {
+        // console.log(localStorage.getItem('odd'));
+        localStorage.setItem("odd", JSON.stringify([this.from]));
+      } else {
+        let arr = JSON.parse(localStorage.getItem("odd"));
+        let flag = true;
+        arr.forEach((e, i) => {
+          if (
+            e.departCity === this.from.departCity &&
+            e.destCity === this.from.destCity
+          ) {
+            flag=false;
+          }
+        });
+        if (flag) {
+          arr.push(this.from);
+          localStorage.setItem("odd", JSON.stringify(arr));
+        }
+      }
       this.$router.push({
-          path:'/air/flights',
-          query:this.from
-        })
+        path: "/air/flights",
+        query: this.from
+      });
     }
   },
-  mounted() {
-  }
+  mounted() {}
 };
 </script>
 
