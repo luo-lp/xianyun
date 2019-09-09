@@ -31,6 +31,7 @@
       <!-- 侧边栏 -->
       <div class="aside">
         <!-- 侧边栏组件 -->
+        <FlightsAside />
       </div>
     </el-row>
   </section>
@@ -41,7 +42,26 @@ import moment from "moment";
 import FlightsListHead from "@/components/air/flightsListHead.vue";
 import FlightsItem from "@/components/air/flightsItem.vue";
 import FlightsFilters from "@/components/air/flightsFilters.vue";
+import FlightsAside from "@/components/air/flightsAside.vue";
 export default {
+  watch: {
+    $route() {
+      this.$axios({
+        url: "airs",
+        params: this.$route.query
+      }).then(res => {
+        this.options = res;
+        this.dataList = res.data.flights;
+        this.SDataList = res.data.flights;
+        console.log(res, 456);
+        console.log(this);
+
+        console.log(this.options, 123);
+        this.total = res.data.total;
+        this.ShouDataList();
+      });
+    }
+  },
   data() {
     return {
       options: {
@@ -58,10 +78,9 @@ export default {
     };
   },
   methods: {
-    arr(arr){
-      this.dataList=arr
-      this.total=arr.length
-      // console.log(arr);
+    arr(arr) {
+      this.dataList = arr;
+      this.total = arr.length;
     },
     ShouDataList() {
       const start = (this.pageIndex - 1) * this.pageSize;
@@ -81,7 +100,8 @@ export default {
   components: {
     FlightsListHead,
     FlightsItem,
-    FlightsFilters
+    FlightsFilters,
+    FlightsAside
   },
   mounted() {
     this.$axios({
@@ -91,10 +111,9 @@ export default {
       this.options = res;
       this.dataList = res.data.flights;
       this.SDataList = res.data.flights;
-      console.log(res, 456);
-      console.log(this);
-
-      console.log(this.options, 123);
+      // console.log(res, 456);
+      // console.log(this);
+      // console.log(this.options, 123);
       this.total = res.data.total;
       this.ShouDataList();
     });
