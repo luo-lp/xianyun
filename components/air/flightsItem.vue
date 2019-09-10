@@ -47,7 +47,9 @@
                         <el-col :span="3" class="choose-button">
                             <el-button 
                             type="warning" 
-                            size="mini">
+                            size="mini"
+                            @click="designate(data.id,item.seat_xid)"
+                            >
                             选定
                             </el-button>
                             <p>剩余：{{item.discount}}</p>
@@ -66,6 +68,16 @@ data(){
         }
     },
     methods: {
+        // 点击选定
+        designate(id, seatId){
+            this.$router.push({
+                path: "/air/order", 
+                query: {
+                    id,
+                    seat_xid: seatId
+                }
+            })
+        },
         // 控制推荐列表的展开收起
         handleShowRecommend(){
             this.showRecommend = !this.showRecommend;
